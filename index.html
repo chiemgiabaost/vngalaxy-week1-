@@ -3,47 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Webpage</title>
     <link rel="stylesheet" href="css/index.css">
+    <title>NutriTracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <header>
-        <h1>Welcome</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#about">About Me</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <span class="navbar-brand">NutriTracker©</span>
+            </div>
+            <div class="navbar-right">
+                <a href="#" class="navbar-link">Home</i></a>
+                <a href="#" class="navbar-link">About</a>
+                <a href="#" class="navbar-link">Contact</a>
+                <a href="#" class="navbar-link">Login</a>
+                <a href="#" class="btn-signup">Sign Up</a>
+            </div>
+        </div>
     </nav>
-    <section id="about">
-        <h2>About Me</h2>
-        <img class="bao-pic" src="resource/Naruto.jpeg"></img>
-        <p>I'm Bao. I'm a Computer Science with a strong passion in Coding.</p>
 
+    <header class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-tagline">Health Matters ❤️</span>
+                <h1 class="hero-title">One Step Solution<br>for all your dietary<br>needs.</h1>
+                <p class="hero-description">
+                    Using your BMI index we calculate whether the<br>dish is suitable for you.
+                </p>
+                <div class="hero-search">
+                    <input type="text" placeholder="Search your product" class="input-search">
+                    <button class="btn-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="btn-icon"><i class="fa-solid fa-microphone"></i></button>
+                    <button class="btn-icon"><i class="fa-solid fa-gear"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="section-title">Features We Provide</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <span class="feature-header">
+                            <h3 class="feature-title">Calculate BMI Easily</h3>
+                            <img src="resource/image.png" class="feature-icon" alt="BMI Image">
+                        </span>
+                        <p>We calculate your BMI index from data like age, height, weight.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <img src="resource/dish.png" class="feature-icon" alt="Dish Image">
+                        <h3 class="feature-title">Track Your Diet</h3>
+                        <p>We provide dietary recommendations based on your BMI.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <img src="resource/chatbot.png" class="feature-icon" alt="Statistic Image">
+                        <h3 class="feature-title">Analyze Your Health</h3>
+                        <p>We offer health analysis based on your input data.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <img src="resource/chatbot.png" class="feature-icon" alt="Chatbot Image">
+                        <h3 class="feature-title">Chat with Us</h3>
+                        <p>We provide chatbot support for all your health-related queries.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-    <section id="projects">
-        <h2>Projects</h2>
-        <ul>
-            <li>
-                <h3>Project 1</h3>
-                <img src="resource/project.jpg" alt="Project Image"></img>
-                <p>This is a description of Project 1.</p>
-            </li>
-            <li>
-                <h3>Project 2</h3>
-                <img src="resource/project.jpg" alt="Project Image"></img>
-                <p>This is a description of Project 2.</p>
-            </li>
-        </ul>
-    </section>
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Reach me at <a href="/">cgbao.inter@vngalaxy.vn</a></p>
-    </section>
-    <footer>
-        <p> All rights reserved.</p>
+
+
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h3 class="footer-brand">NutriTracker©</h3>
+                <p>© 2024 NutriTracker. All rights reserved.</p>
+            </div>
+            <div class="footer-center">
+                <ul class="footer-links">
+                    <li class="footer-link">Home</li>
+                    <li class="footer-link">About</li>
+                    <li class="footer-link">Contact</li>
+                </ul>
+            </div>
+            <div class="footer-right">
+                <ul class="social-links">
+                    <li class="social-link"><i class="fa-brands fa-facebook-f"></i></li>
+                    <li class="social-link"><i class="fa-brands fa-instagram"></i></li>
+                    <li class="social-link"><i class="fa-brands fa-linkedin-in"></i></li>
+                </ul>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
