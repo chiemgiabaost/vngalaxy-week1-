@@ -3,6 +3,8 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import CreateTask from './pages/CreateTask'
+import TaskInfo from './pages/TaskInfo';
+import EditTask from './pages/EditTask';
 function App() {
   return (
     <Routes>
@@ -13,6 +15,8 @@ function App() {
       <Route path="/books/delete/:id" element={<DeleteBook/>}></Route> */}
       <Route path="/" element={<Home />} />
       <Route path="/create" element={<CreateTask />} />
+      <Route path="/task/:id" element={<TaskInfo />} />
+      <Route path="/edit/:id" element={<EditTask />} />
     </Routes>
   );
 }

@@ -7,20 +7,22 @@ const CreateTask = () => {
     const navigate = useNavigate();
     const [todo, setTodo] = useState('');
     const [userId, setUserId] = useState(0);
-    const [completed, setCompleted] = useState(false);
+    const [completed, setCompleted] = useState(Boolean);
+    const [date, setDate] = useState(new Date());
     const handleSubmit = () =>{
-        
-        fetch('https://dummyjson.com/todos/add', {
+        setDate(new Date());
+        fetch('https://666b16b87013419182d237c9.mockapi.io/task', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                todo: todo,
-                completed: false,
-                userId: userId,
+                task: todo,
+                status: completed,
+                createdAt: date,
+
+
   })
 })
-.then(res => res.json())
-.then(console.log);
+.then(() => navigate('/'))
     }
   return (
     <div className='p-4'>
@@ -37,6 +39,7 @@ const CreateTask = () => {
                         onChange={ (e) => setTodo(e.target.value)}
                         required
                         className='border-2 border-sky-400 rounded-md px-2 w-full'
+                        placeholder={todo}
                     />
                 </div>
                 <div className='flex space-x-1 my-2' >
@@ -51,16 +54,7 @@ const CreateTask = () => {
                         <option value={true}>Complete</option>
                     </select>
                 </div>
-                <div className='flex space-x-1 my-2'>
-                    <label>User ID: </label>
-                    <input 
-                        type = "text"
-                        value = {userId}
-                        onChange={ (e) => setUserId(e.target.value)}
-                        required
-                        className='border-2 border-sky-400 rounded-md px-2 w-full'
-                    />
-                </div>
+                
                 <div className='justify-center max-w  flex'>
                     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
                         onClick={handleSubmit}    
