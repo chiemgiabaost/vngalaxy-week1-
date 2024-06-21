@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const Board = require('../models/board');
 const userController = {
     getAllUser: async (req, res) => {
         try {
@@ -59,7 +59,31 @@ const userController = {
         } catch (err) {
             return res.status(500).json(err);
         }
+    },
+
+    getUserBoards: async (req, res) => {
+        try {
+            const userId = req.params.id;
+            console.log(userId)
+            // Find boards owned by the user
+            const ownedBoards = await Board.find({ ownerId: userId });
+            const guestBoards = await Board.find({ 'members.userId': userId });
+            // Find boards where the user is a member
+            
+            
+            
+            res.json({
+              success: true,
+              data: {
+                ownedBoards,
+                guestBoards
+              }
+            });
+          } catch (err) {
+            res.status(500).json({ success: false, error: err.message });
+          }
     }
+
 };
 
 module.exports = userController;

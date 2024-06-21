@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const User = require('./models/user');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
-
+const boardRoute = require('./routes/boardRoute');
 
 
 dotenv.config();
@@ -25,5 +25,5 @@ mongoose.connect(process.env.MONGO_URL).then( () =>{
     console.log('Connected to MongoDB');
 }).catch(err => console.log(err));
 
-app.use('/api/auth', authRoute);
+app.use('/api/board', boardRoute);
 app.use('/api/user', userRoute);
