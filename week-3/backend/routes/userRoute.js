@@ -1,15 +1,15 @@
 const router = require('express').Router();
 const userController = require('../controllers/userController');
+const middlewareController = require('../middleware/middlewareController');
+router.get('/', middlewareController.verifyToken ,userController.getAllUser); // get all users
 
-router.get('/', userController.getAllUser);
+router.get("/:id", middlewareController.verifyToken,userController.getUserById); // get user by id
 
-router.get("/:id", userController.getUserById);
+router.post("/", middlewareController.verifyToken,  userController.createUser); // create a new user
 
-router.post("/", userController.createUser);
+router.put("/:id", middlewareController.verifyToken, userController.updateUser);  // update user by id
 
-router.put("/:id", userController.updateUser);  
+router.delete("/:id", middlewareController.verifyToken,userController.deleteUser);   // delete user by id
 
-router.delete("/:id", userController.deleteUser);   
-
-router.get("/:id/boards", userController.getUserBoards);
+router.get("/:id/boards",middlewareController.verifyToken, userController.getUserBoards); // get all boards that the user have
 module.exports = router;

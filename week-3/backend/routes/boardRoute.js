@@ -2,19 +2,21 @@ const router = require('express').Router();
 
 const boardController = require('../controllers/boardController');
 
-router.get('/', boardController.getAllBoards);
+router.get('/', boardController.getAllBoards); // get all boards
 
-router.get('/:id', boardController.getBoardById);
+router.get('/:id', boardController.getBoardById); // get board by id
 
-router.post('/', boardController.createBoard);
+router.post('/', boardController.createBoard); // create a new board
 
-router.put('/:id', boardController.updateBoard);
+router.post('/:id/members', boardController.addMember); // add a member to a board
 
-router.delete('/:id', boardController.deleteBoard);
+router.put('/:id', boardController.updateBoard); // update board by id
 
-router.get('/:id/members', boardController.getAllMembers);
+router.delete('/:id', boardController.deleteBoard); // delete board by id
+
+router.get('/:id/members', boardController.getAllMembers); // get all members of a board
 
 // router.post('/:id/members', boardController.addMember);
 
-router.delete('/:id/members/:memberId', boardController.deleteMember);
+router.delete('/:id/members/:memberId', boardController.deleteMember); // delete a member from a board
 module.exports = router;    

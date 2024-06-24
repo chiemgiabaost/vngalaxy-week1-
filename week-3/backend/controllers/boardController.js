@@ -38,7 +38,9 @@ const boardController = {
     updateBoard: async (req, res) => {
         try {
             const boardId = req.params.id;
-            const board = await Board.findByIdAndUpdate
+            const board = await Board.findByIdAndUpdate(boardId, req.body, { new: true });
+            res.status(201).json({ success: true, data: { board } });
+
         } catch (err) {
             return res.status(500).json(err);
         }
@@ -86,6 +88,17 @@ const boardController = {
                 return res.status(404).json({ message: 'Board not found' });
             }
             return res.status(200).json({ message: 'Board deleted successfully' });
+        } catch (err) {
+            return res.status(500).json(err);
+        }
+    },
+    getPosition: async (req, res) => {
+        try {
+            const board = await Board.findById(req.params.id);
+            if (!board) {
+                return res.status(404).json({ message: 'Board not found' });
+            }
+            return res.status(200).json({ position: board.position });
         } catch (err) {
             return res.status(500).json(err);
         }

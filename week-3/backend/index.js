@@ -27,3 +27,4 @@ mongoose.connect(process.env.MONGO_URL).then( () =>{
 
 app.use('/api/board', boardRoute);
 app.use('/api/user', userRoute);
+app.use('/api/auth', authRoute);
