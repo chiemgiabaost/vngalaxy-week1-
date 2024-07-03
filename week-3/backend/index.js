@@ -20,6 +20,7 @@ app.use(cors());
 app.use(cookieParser())
 app.use(express.json());  
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 mongoose.connect(process.env.MONGO_URL).then( () =>{
     console.log('Connected to MongoDB');
