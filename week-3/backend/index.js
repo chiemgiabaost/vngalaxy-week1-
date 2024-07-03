@@ -9,8 +9,8 @@ const User = require('./models/user');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
 const boardRoute = require('./routes/boardRoute');
-
-
+const columnRoute = require('./routes/columnRoute');
+const cardRoute = require('./routes/cardRoute');
 dotenv.config();
 app.listen(8000, () => {
     console.log('Server is running on port 8000');
@@ -25,6 +25,8 @@ mongoose.connect(process.env.MONGO_URL).then( () =>{
     console.log('Connected to MongoDB');
 }).catch(err => console.log(err));
 
-app.use('/api/board', boardRoute);
-app.use('/api/user', userRoute);
-app.use('/api/auth', authRoute);
+app.use('/v1/board', boardRoute);
+app.use('/v1/user', userRoute);
+app.use('/v1/auth', authRoute);
+app.use('/v1/column', columnRoute);
+app.use("/v1/card", cardRoute);

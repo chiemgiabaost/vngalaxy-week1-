@@ -17,6 +17,6 @@ router.delete('/:id', boardController.deleteBoard); // delete board by id
 router.get('/:id/members', boardController.getAllMembers); // get all members of a board
 
 // router.post('/:id/members', boardController.addMember);
-
+router.put("/supports/moving_card",boardController.moveCardToDifferentColumn)
 router.delete('/:id/members/:memberId', boardController.deleteMember); // delete a member from a board
 module.exports = router;    

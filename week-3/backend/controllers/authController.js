@@ -3,7 +3,6 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-let refreshTokens = [];
 const authController = {
     registerUser: async (req, res) => {
         try {
@@ -42,7 +41,11 @@ const authController = {
             if (user && validPassword) {
                 const accessToken = authController.generateAccessToken(user);
                 const refreshToken = authController.generateFreshToken(user);
-                refreshTokens.push(refreshToken)
+
+                // Save refresh token to the user document
+                user.refreshToken = refreshToken;
+                await user.save();
+
                 // Save refresh token in cookie
                 res.cookie("refreshToken", refreshToken, {
                     httpOnly: true,
@@ -52,7 +55,7 @@ const authController = {
                 });
 
                 const { password, ...others } = user._doc;
-                return res.status(200).json({ message: "Login successful", ...others, accessToken, refreshToken});
+                return res.status(200).json({ message: "Login successful", ...others, accessToken, refreshToken });
             }
         } catch (error) {
             console.error("Error logging in user:", error);
@@ -60,20 +63,31 @@ const authController = {
         }
     },
     logoutUser: async (req, res) => {
-        // Remove refresh token from cookies
-        res.clearCookie("refreshToken");
-        refreshTokens = refreshTokens.filter( (token) => token !== req.cookies.refreshToken);
-        res.status(200).json({ message: "User logged out" });
+        try {
+            const user = await User.findOne({ refreshToken: req.cookies.refreshToken });
+            if (!user) {
+                return res.status(403).json({ message: "User not authenticated" });
+            }
+
+            // Remove refresh token from the user document
+            user.refreshToken = '';
+            await user.save();
+
+            // Remove refresh token from cookies
+            res.clearCookie("refreshToken");
+            res.status(200).json({ message: "User logged out" });
+        } catch (error) {
+            console.error("Error logging out user:", error);
+            res.status(500).json({ message: "Something went wrong" });
+        }
     },
     generateAccessToken: (user) => {
         return jwt.sign({
             id: user.id,
             admin: user.admin,
         },
-        process.env.JWT_SECRET, { expiresIn: '30m' });
+        process.env.JWT_SECRET, { expiresIn: '20s' });
     },
-
-    // Generate refresh token
     generateFreshToken: (user) => {
         return jwt.sign({
             id: user.id,
@@ -81,36 +95,45 @@ const authController = {
         },
         process.env.JWT_REFRESH, { expiresIn: '7d' });
     },
-
-    // Refresh token
-    requestRefreshToken: async (req, res)=> {
-        const refreshToken = req.cookies.refreshToken;
-        if ( !refreshToken ) {
-            return res.status(403).json({message: 'User not authenticated'})
-        }
-        if (!refreshTokens.includes(refreshToken)) {
-            return res.status(403).json({message: 'User not authenticated'})
-        }
-        jwt.verify(refreshToken, process.env.JWT_REFRESH, (err, user) => {
-            if (err) {
-                return res.status(403).json({message: 'User not authenticated'})
+    requestRefreshToken: async (req, res) => {
+        try {
+            const refreshToken = req.cookies.refreshToken;
+            if (!refreshToken) {
+                return res.status(403).json({ message: 'User not authenticated' });
             }
-            refreshTokens = refreshTokens.filter((token) => token !== refreshToken)
-            //create new access token
-            const newAcessToken = authController.generateAccessToken(user);
-            const newFreshToken = authController.generateFreshToken(user);
 
-            refreshTokens.push(newFreshToken)
-            res.cookie("refreshToken", newFreshToken, {
-                httpOnly: true,
-                sameSite: "strict",
-                secure: false,
-                path: "/",
-            })
-            res.status(200).json({ accessToken: newAcessToken});
-        })
+            const user = await User.findOne({ refreshToken });
+            if (!user) {
+                return res.status(403).json({ message: 'User not authenticated' });
+            }
+
+            jwt.verify(refreshToken, process.env.JWT_REFRESH, async (err, decodedUser) => {
+                if (err) {
+                    return res.status(403).json({ message: 'User not authenticated' });
+                }
+
+                const newAccessToken = authController.generateAccessToken(user);
+                const newRefreshToken = authController.generateFreshToken(user);
+
+                // Save new refresh token to the user document
+                user.refreshToken = newRefreshToken;
+                await user.save();
+
+                // Save new refresh token in cookie
+                res.cookie("refreshToken", newRefreshToken, {
+                    httpOnly: true,
+                    sameSite: "strict",
+                    secure: false,
+                    path: "/",
+                });
+
+                res.status(200).json({ accessToken: newAccessToken });
+            });
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+            res.status(500).json({ message: "Something went wrong" });
+        }
     }
-}
-
+};
 
 module.exports = authController;
